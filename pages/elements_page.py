@@ -1,6 +1,9 @@
+import random
 import time
 
-from locators.elements_page_locators import TextBoxPageLocators
+from selenium.webdriver.common.by import By
+
+from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators
 from pages.base_page import BasePage
 from generator.generator import generated_person
 
@@ -28,3 +31,36 @@ class TextBoxPage(BasePage):
         permanent_address = self.element_is_present(self.locators.CREATED_PERMANENT_ADDRESS).text.split(':')[1]
         return full_name, email, current_address, permanent_address
 
+
+class CheckBoxPage(BasePage):
+    locators = CheckBoxPageLocators()
+
+    def open_full_list(self):
+        self.element_is_visible(self.locators.EXPAND_ALL_BUTTON).click()
+
+    def click_random_checkbox(self):
+        item_list = self.elements_are_visible(self.locators.ITEM_LIST)
+        count = 21
+        while count != 0:
+            item = item_list[random.randint(1, 16)]
+            if count > 0:
+                self.go_to_element(item)
+                item.click()
+                count -= 1
+            else:
+                break
+
+    def get_checked_checkboxes(self):
+        checked_list = self.element_are_present(self.locators.CHECKED_ITEMS)
+        data_1 = []
+        for box in checked_list:
+            title_item = box.find_element(By.XPATH, self.locators.TITLE_ITEM)
+            data_1.append(title_item.text)
+        return str(data_1).replace(' ', '').replace('doc', '').replace('.', '').lower()
+
+    def get_output_result(self):
+        result_list = self.element_are_present(self.locators.OUTPUT_RESULT)
+        data_2 = []
+        for item in result_list:
+            data_2.append(item.text)
+        return str(data_2).replace(' ', '').lower()
