@@ -3,7 +3,7 @@ import time
 
 from selenium.webdriver.common.by import By
 
-from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators
+from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators
 from pages.base_page import BasePage
 from generator.generator import generated_person
 
@@ -64,3 +64,16 @@ class CheckBoxPage(BasePage):
         for item in result_list:
             data_2.append(item.text)
         return str(data_2).replace(' ', '').lower()
+
+
+class RadioButtonPage(BasePage):
+    locators = RadioButtonPageLocators()
+
+    def click_on_the_radio_button(self, choice):
+        choices = {'yes': self.locators.YES_RADIO_BUTTON,
+                   'impressive': self.locators.IMPRESSIVE_RADIO_BUTTON,
+                   'no': self.locators.NO_RADIO_BUTTON}
+        self.element_is_visible(choices[choice]).click()
+
+    def get_output_radio_button_result(self):
+        return self.element_is_visible(self.locators.OUTPUT_RADIO_RESULT).text
