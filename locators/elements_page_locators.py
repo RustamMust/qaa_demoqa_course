@@ -32,6 +32,7 @@ class RadioButtonPageLocators:
 
 
 class WebTablePageLocators:
+    # add person form
     ADD_BUTTON = (By.CSS_SELECTOR, "button[id='addNewRecordButton']")
     FIRST_NAME_INPUT = (By.CSS_SELECTOR, "input[id='firstName']")
     LAST_NAME_INPUT = (By.CSS_SELECTOR, "input[id='lastName']")
@@ -40,5 +41,17 @@ class WebTablePageLocators:
     SALARY_INPUT = (By.CSS_SELECTOR, "input[id='salary']")
     DEPARTMENT_INPUT = (By.CSS_SELECTOR, "input[id='department']")
     SUBMIT_BUTTON = (By.CSS_SELECTOR, "button[id='submit']")
+
+    # table
+    FULL_PEOPLE_LIST = (By.CSS_SELECTOR, "div[class='rt-tr-group']")
+    SEARCH_INPUT = (By.CSS_SELECTOR, "input[id='searchBox']")
+    DELETE_BUTTON = (By.CSS_SELECTOR, "span[title='Delete']")
+    ROW_PARENT = ".//ancestor::div[@class='rt-tr-group']"
+    NO_ROWS_FOUND = (By.CSS_SELECTOR, "div[class='rt-noData']")
+    COUNT_ROW_LIST = (By.CSS_SELECTOR, "select[aria-label='rows per page']")
+
+    # update
+    UPDATE_BUTTON =(By.CSS_SELECTOR, "span[title='Edit']")
+
 
 
