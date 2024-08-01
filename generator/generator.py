@@ -18,11 +18,12 @@ def generated_person():
         salary=random.randint(20000, 800000),
         current_address=faker_ru.address(),
         permanent_address=faker_ru.address(),
+        mobile_number=faker_ru.msisdn(),
     )
 
 
 def generated_file():
-    path = f'/Users/qamacos/PycharmProjects/qaa_demoqa_course/filetest{random.randint(0,999)}.txt'
+    path = f'/Users/qamacos/PycharmProjects/qaa_demoqa_course/filetest{random.randint(0, 999)}.txt'
     file = open(path, 'w+')
     file.write(f'Hello World{random.randint(0, 999)}')
     file.close()
