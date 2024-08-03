@@ -1,6 +1,7 @@
 import time
 
-from pages.alerts_frame_windows_page import BrowserWindowsPage, AlertsPage
+from pages.alerts_frame_windows_page import BrowserWindowsPage, AlertsPage, FramePage, NestedFramesPage, \
+    ModelDialogsPage
 
 
 class TestAlertsFrameWindows:
@@ -41,5 +42,31 @@ class TestAlertsFrameWindows:
             alerts_page.open()
             text, prompt_text = alerts_page.check_prompt_button()
             assert text in prompt_text, 'Alert has not been displayed'
+
+    class TestFrame:
+        def test_frame(self, driver):
+            frame_page = FramePage(driver, 'https://demoqa.com/frames')
+            frame_page.open()
+            result_frame_1 = frame_page.check_frame('frame1')
+            result_frame_2 = frame_page.check_frame('frame2')
+            assert result_frame_1 == ['This is a sample page', '500px', '350px'], 'Frame has not been exist'
+            assert result_frame_2 == ['This is a sample page', '100px', '100px'], 'Frame has not been exist'
+
+    class TestNestedFrames:
+        def test_nested_frames(self, driver):
+            nested_frames_page = NestedFramesPage(driver, 'https://demoqa.com/nestedframes')
+            nested_frames_page.open()
+            parent_text, child_text = nested_frames_page.check_nested_frames()
+            assert parent_text == 'Parent frame', 'Nested Frame has not been exist'
+            assert child_text == 'Child Iframe', 'Nested Frame has not been exist'
+
+    class TestModelDialogs:
+        def test_model_dialogs(self, driver):
+            model_dialogs_page = ModelDialogsPage(driver, 'https://demoqa.com/modal-dialogs')
+            model_dialogs_page.open()
+            small_button, large_button = model_dialogs_page.check_model_dialogs()
+            assert small_button[1] < large_button[1], 'Body of small button is bigger then in large button'
+            assert small_button[0] == 'Small Modal', 'Title of small button is not Small Modal'
+            assert large_button[0] == 'Large Modal', 'Title of large button is not Large Modal'
 
 
