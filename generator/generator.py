@@ -1,9 +1,10 @@
 import random
 
-from data.data import Person
+from data.data import Person, Color, Date
 from faker import Faker
 
 faker_ru = Faker('ru_RU')
+faker_en = Faker('En')
 Faker.seed()
 
 
@@ -28,3 +29,18 @@ def generated_file():
     file.write(f'Hello World{random.randint(0, 999)}')
     file.close()
     return file.name, path
+
+
+def generated_color():
+    yield Color(
+        color_name=["Red", "Blue", "Green", "Yellow", "Purple", "Black", "White", "Voilet", "Indigo", "Magenta", "Aqua"]
+    )
+
+
+def generated_date():
+    yield Date(
+        day=faker_en.day_of_month(),
+        month=faker_en.month_name(),
+        year=faker_en.year(),
+        time='12:00'
+    )
