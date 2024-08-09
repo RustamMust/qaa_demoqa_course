@@ -1,6 +1,7 @@
 import random
 import time
 
+import allure
 from selenium.common import TimeoutException
 from selenium.webdriver import Keys, ActionChains
 from selenium.webdriver.support.select import Select
@@ -15,6 +16,7 @@ from pages.base_page import BasePage
 class AccordianPage(BasePage):
     locators = AccordianPageLocators()
 
+    @allure.step('check_accordian')
     def check_accordian(self, accordian_num):
         accordian = {
             'first': {'title': self.locators.FIRST_SECTION_HEADING, 'content': self.locators.FIRST_SECTION_TEXT},
@@ -30,6 +32,7 @@ class AccordianPage(BasePage):
 class AutoCompletePage(BasePage):
     locators = AutoCompletePageLocators()
 
+    @allure.step('fill_input_multi')
     def fill_input_multi(self):
         colors = random.sample(next(generated_color()).color_name, k=random.randint(2, 5))
         for color in colors:
@@ -38,6 +41,7 @@ class AutoCompletePage(BasePage):
             input_multi.send_keys(Keys.ENTER)
         return colors
 
+    @allure.step('remove_value_from_multi')
     def remove_value_from_multi(self):
         count_value_before = len(self.elements_are_present(self.locators.MULTI_VALUE))
         remove_button_list = self.elements_are_visible(self.locators.SINGLE_MULTI_VALUE_REMOVE)
@@ -47,6 +51,7 @@ class AutoCompletePage(BasePage):
         count_value_after = len(self.elements_are_present(self.locators.MULTI_VALUE))
         return count_value_before, count_value_after
 
+    @allure.step('check_color_in_multi')
     def check_color_in_multi(self):
         color_list = self.elements_are_present(self.locators.MULTI_VALUE)
         colors = []
@@ -54,6 +59,7 @@ class AutoCompletePage(BasePage):
             colors.append(color.text)
         return colors
 
+    @allure.step('remove_all_values_from_multi')
     def remove_all_values_from_multi(self):
         self.element_is_clickable(self.locators.REMOVE_ALL_MULTI_VALUES_BUTTON).click()
         try:
@@ -63,6 +69,7 @@ class AutoCompletePage(BasePage):
             multi_value_count_after = 0
         return multi_value_count_after
 
+    @allure.step('fill_input_single')
     def fill_input_single(self):
         color = random.sample(next(generated_color()).color_name, k=1)
         input_single = self.element_is_clickable(self.locators.SINGLE_INPUT)
@@ -70,6 +77,7 @@ class AutoCompletePage(BasePage):
         input_single.send_keys(Keys.ENTER)
         return color[0]
 
+    @allure.step('check_color_in_single')
     def check_color_in_single(self):
         color = self.element_is_visible(self.locators.SINGLE_VALUE)
         return color.text
@@ -78,6 +86,7 @@ class AutoCompletePage(BasePage):
 class DatePickerPage(BasePage):
     locators = DatePickerPageLocators()
 
+    @allure.step('select_date')
     def select_date(self):
         date = next(generated_date())
         input_date = self.element_is_visible(self.locators.DATE_INPUT)
@@ -89,10 +98,12 @@ class DatePickerPage(BasePage):
         value_date_after = input_date.get_attribute('value')
         return value_date_before, value_date_after
 
+    @allure.step('set_date_by_text')
     def set_date_by_text(self, element, value):
         select = Select(self.element_is_present(element))
         select.select_by_visible_text(value)
 
+    @allure.step('set_item_from_list')
     def set_item_from_list(self, elements, value):
         item_list = self.elements_are_present(elements)
         for item in item_list:
@@ -100,6 +111,7 @@ class DatePickerPage(BasePage):
                 item.click()
                 break
 
+    @allure.step('select_date_and_time')
     def select_date_and_time(self):
         date = next(generated_date())
         input_date = self.element_is_visible(self.locators.DATE_AND_TIME_INPUT)
@@ -119,6 +131,7 @@ class DatePickerPage(BasePage):
 class SliderPage(BasePage):
     locators = SliderPageLocators()
 
+    @allure.step('change_slider_value')
     def change_slider_value(self):
         slider_value_before = self.element_is_visible(self.locators.INPUT_VALUE).get_attribute('value')
         slider = self.element_is_visible(self.locators.SLIDER)
@@ -130,6 +143,7 @@ class SliderPage(BasePage):
 class ProgressBar(BasePage):
     locators = ProgressBarLocators()
 
+    @allure.step('change_progress_bar_value')
     def change_progress_bar_value(self):
         progress_bar_before = self.element_is_present(self.locators.PROGRESS_BAR_LINE).text
         self.element_is_clickable(self.locators.START_STOP_BUTTON).click()
@@ -142,6 +156,7 @@ class ProgressBar(BasePage):
 class TabsPage(BasePage):
     locators = TabsPageLocators()
 
+    @allure.step('check_tabs_page')
     def check_tabs_page(self, name_tab):
         tabs = {
             'what': {'title': self.locators.WHAT_TAB, 'content': self.locators.WHAT_TAB_TEXT},
@@ -158,6 +173,7 @@ class TabsPage(BasePage):
 class ToolTipsPage(BasePage):
     locators = ToolTipsPageLocators()
 
+    @allure.step('get_text_from_tool_tip')
     def get_text_from_tool_tip(self, hover_element, wait_element):
         element = self.element_is_present(hover_element)
         self.action_move_to_element(element)
@@ -166,6 +182,7 @@ class ToolTipsPage(BasePage):
         text = tool_tip_text.text
         return text
 
+    @allure.step('check_tool_tip')
     def check_tool_tip(self):
         tool_tip_text_button = self.get_text_from_tool_tip(self.locators.HOVER_ME_TO_SEE_BUTTON,
                                                            self.locators.TOOLTIP_BUTTON)
@@ -180,6 +197,7 @@ class ToolTipsPage(BasePage):
 class MenuPage(BasePage):
     locators = MenuPageLocators()
 
+    @allure.step('check_menu')
     def check_menu(self):
         menu_item_list = self.elements_are_present(self.locators.MENU_ITEM_LIST)
         data = []
@@ -192,6 +210,7 @@ class MenuPage(BasePage):
 class SelectMenuPage(BasePage):
     locators = SelectMenuPageLocators()
 
+    @allure.step('check_select_menu')
     def check_select_menu(self):
         self.element_is_visible(self.locators.MULTI_SELECT_INPUT).send_keys('Green')
         self.element_is_visible(self.locators.MULTI_SELECT_INPUT).send_keys(Keys.ENTER)
